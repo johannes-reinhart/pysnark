@@ -47,6 +47,8 @@ if backend is None:
             except Exception as e:
                 print("*** Error loading backend " + str(mod[1]) + ":", e)
 
+modulus = backend.get_modulus()
+
 """
 Operating principles:
  - if wrong type of value is given as argument, raise ValueError or
@@ -718,6 +720,7 @@ def PubVal(val):
     """
     if not isinstance(val, int):
         raise RuntimeError("Wrong type for PubVal")
+    val %= modulus
     return LinComb(val, backend.pubval(val))
 
 def PrivVal(val):
@@ -726,6 +729,7 @@ def PrivVal(val):
     """
     if not isinstance(val, int):
         raise RuntimeError("Wrong type for PrivVal")
+    val %= modulus
     return LinComb(val, backend.privval(val))
 
 def ConstVal(val):
